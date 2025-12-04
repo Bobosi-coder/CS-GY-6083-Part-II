@@ -8,26 +8,23 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 // Viewer pages
 import ViewerHome from './pages/ViewerHome';
+import ViewerSeriesList from './pages/ViewerSeriesList';
+import ViewerSeriesDetail from './pages/ViewerSeriesDetail';
+import ViewerMyFeedback from './pages/ViewerMyFeedback';
+import ViewerProfile from './pages/ViewerProfile';
+import ViewerChangePassword from './pages/ViewerChangePassword';
 // Admin pages
 import AdminHome from './pages/AdminHome';
-
-// Dummy components for pages to be created
-const ViewerSeriesList = () => <h2>Viewer Series List</h2>;
-const ViewerSeriesDetail = () => <h2>Viewer Series Detail</h2>;
-const ViewerMyFeedback = () => <h2>My Feedback</h2>;
-const ViewerProfile = () => <h2>My Profile</h2>;
-const ViewerChangePassword = () => <h2>Change Password</h2>;
-
-const AdminSeriesList = () => <h2>Admin Series List</h2>;
-const AdminSeriesEdit = () => <h2>Admin Series Edit</h2>;
-const AdminEpisodes = () => <h2>Admin Episodes</h2>;
-const AdminPhouses = () => <h2>Admin Production Houses</h2>;
-const AdminProducers = () => <h2>Admin Producers</h2>;
-const AdminContracts = () => <h2>Admin Contracts</h2>;
-const AdminViewers = () => <h2>Admin Viewers</h2>;
-const AdminFeedback = () => <h2>Admin Feedback</h2>;
+import AdminSeriesList from './pages/AdminSeriesList';
+import AdminSeriesEdit from './pages/AdminSeriesEdit';
+import AdminEpisodes from './pages/AdminEpisodes';
+import AdminPhouses from './pages/AdminPhouses';
+import AdminProducers from './pages/AdminProducers';
+import AdminContracts from './pages/AdminContracts';
+import AdminViewers from './pages/AdminViewers';
+import AdminFeedback from './pages/AdminFeedback';
 import AdminReports from './pages/AdminReports';
-const AdminCollaboration = () => <h2>Admin Collaborations</h2>;
+import AdminCollaboration from './pages/AdminCollaboration';
 
 
 function App() {

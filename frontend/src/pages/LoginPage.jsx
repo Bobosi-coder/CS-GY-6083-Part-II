@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import './LoginPage.css';
 
 const LoginPage = () => {
@@ -66,8 +66,6 @@ const LoginPage = () => {
             </div>
             {error && <p className="error-message">{error}</p>}
             <button type="submit" className="signin-button">Sign In</button>
-import { Link } from 'react-router-dom';
-// ...
             <p className="info-text">
               New to Dry News? <Link to="/register" style={{ color: 'white' }}>Sign up now</Link>.
             </p>
