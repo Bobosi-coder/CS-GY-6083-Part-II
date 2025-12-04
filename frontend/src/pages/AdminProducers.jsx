@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axiosClient from '../api/axiosClient';
+import NavBar from '../components/NavBar';
 
 const emptyForm = { fname: '', lname: '', street: '', city: '', state: '', zipcode: '', phone: '', email: '', cid: '' };
 
@@ -73,63 +74,66 @@ const AdminProducers = () => {
   };
 
   return (
-    <div className="page">
-      <div className="page-inner">
-        <div className="page-header">
-          <h1 className="page-title">Producers</h1>
-          {notice && <span className="pill">{notice}</span>}
-        </div>
-        {error && <p className="muted">{error}</p>}
-        <div className="card">
-          <form onSubmit={submit} className="form-row">
-            <input name="fname" placeholder="First name" value={form.fname} onChange={handleChange} />
-            <input name="lname" placeholder="Last name" value={form.lname} onChange={handleChange} />
-            <input name="street" placeholder="Street" value={form.street} onChange={handleChange} />
-            <input name="city" placeholder="City" value={form.city} onChange={handleChange} />
-            <input name="state" placeholder="State" value={form.state} onChange={handleChange} />
-            <input name="zipcode" placeholder="Zipcode" value={form.zipcode} onChange={handleChange} />
-            <input name="phone" placeholder="Phone" value={form.phone} onChange={handleChange} />
-            <input name="email" placeholder="Email" value={form.email} onChange={handleChange} />
-            <input name="cid" type="number" placeholder="Country ID" value={form.cid} onChange={handleChange} />
-            <button className="btn" type="submit">{editingId ? 'Update' : 'Create'}</button>
-            {editingId && (
-              <button className="btn btn-secondary" type="button" onClick={() => { setEditingId(null); setForm(emptyForm); }}>
-                Cancel
-              </button>
-            )}
-          </form>
-        </div>
+    <>
+      <NavBar />
+      <div className="page">
+        <div className="page-inner">
+          <div className="page-header">
+            <h1 className="page-title">Producers</h1>
+            {notice && <span className="pill">{notice}</span>}
+          </div>
+          {error && <p className="muted">{error}</p>}
+          <div className="card">
+            <form onSubmit={submit} className="form-row">
+              <input name="fname" placeholder="First name" value={form.fname} onChange={handleChange} />
+              <input name="lname" placeholder="Last name" value={form.lname} onChange={handleChange} />
+              <input name="street" placeholder="Street" value={form.street} onChange={handleChange} />
+              <input name="city" placeholder="City" value={form.city} onChange={handleChange} />
+              <input name="state" placeholder="State" value={form.state} onChange={handleChange} />
+              <input name="zipcode" placeholder="Zipcode" value={form.zipcode} onChange={handleChange} />
+              <input name="phone" placeholder="Phone" value={form.phone} onChange={handleChange} />
+              <input name="email" placeholder="Email" value={form.email} onChange={handleChange} />
+              <input name="cid" type="number" placeholder="Country ID" value={form.cid} onChange={handleChange} />
+              <button className="btn" type="submit">{editingId ? 'Update' : 'Create'}</button>
+              {editingId && (
+                <button className="btn btn-secondary" type="button" onClick={() => { setEditingId(null); setForm(emptyForm); }}>
+                  Cancel
+                </button>
+              )}
+            </form>
+          </div>
 
-        <div className="card section">
-          <table className="table">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Contact</th>
-                <th>Country</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {list.map((p) => (
-                <tr key={p.PID}>
-                  <td>{p.PID}</td>
-                  <td>{p.FNAME} {p.LNAME}</td>
-                  <td className="muted">{p.EMAIL} · {p.PHONE}</td>
-                  <td>{p.CNAME}</td>
-                  <td className="inline-actions">
-                    <button className="btn btn-secondary" onClick={() => editRow(p)}>Edit</button>
-                    <button className="btn btn-danger" onClick={() => deleteRow(p.PID)}>Delete</button>
-                  </td>
+          <div className="card section">
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Contact</th>
+                  <th>Country</th>
+                  <th>Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-          {!list.length && <p className="muted">No records.</p>}
+              </thead>
+              <tbody>
+                {list.map((p) => (
+                  <tr key={p.PID}>
+                    <td>{p.PID}</td>
+                    <td>{p.FNAME} {p.LNAME}</td>
+                    <td className="muted">{p.EMAIL} · {p.PHONE}</td>
+                    <td>{p.CNAME}</td>
+                    <td className="inline-actions">
+                      <button className="btn btn-secondary" onClick={() => editRow(p)}>Edit</button>
+                      <button className="btn btn-danger" onClick={() => deleteRow(p.PID)}>Delete</button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            {!list.length && <p className="muted">No records.</p>}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

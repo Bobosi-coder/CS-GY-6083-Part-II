@@ -37,6 +37,13 @@
     letter-spacing: 0.1em;
 }
 
+.course-info {
+    color: #d1d5db;
+    margin-top: 4px;
+    font-size: 0.9rem;
+    letter-spacing: 0.02em;
+}
+
 .login-panel {
     position: relative;
     z-index: 2;

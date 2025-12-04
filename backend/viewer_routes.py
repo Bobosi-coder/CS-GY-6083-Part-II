@@ -63,6 +63,7 @@ def get_series_list():
                 s.NEPISODES,
                 s.ORI_LANG,
                 GROUP_CONCAT(DISTINCT st.TNAME ORDER BY st.TNAME SEPARATOR ', ') AS genres,
+                GROUP_CONCAT(DISTINCT src.CID ORDER BY src.CID SEPARATOR ',') AS country_ids,
                 AVG(f.RATE) AS avg_rating,
                 COUNT(DISTINCT f.ACCOUNT) AS feedback_count
             FROM

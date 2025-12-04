@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axiosClient from '../api/axiosClient';
+import NavBar from '../components/NavBar';
 
 const ViewerChangePassword = () => {
   const [form, setForm] = useState({ old_password: '', new_password: '' });
@@ -25,35 +26,38 @@ const ViewerChangePassword = () => {
   };
 
   return (
-    <div className="page">
-      <div className="page-inner">
-        <div className="page-header">
-          <h1 className="page-title">Change Password</h1>
-          {notice && <span className="pill">{notice}</span>}
-        </div>
-        {error && <p className="muted">{error}</p>}
-        <div className="card">
-          <form onSubmit={handleSubmit} className="form-row">
-            <input
-              name="old_password"
-              type="password"
-              placeholder="Current password"
-              value={form.old_password}
-              onChange={handleChange}
-            />
-            <input
-              name="new_password"
-              type="password"
-              placeholder="New password"
-              value={form.new_password}
-              onChange={handleChange}
-            />
-            <button className="btn" type="submit">Update</button>
-          </form>
-          <p className="notice">Use a strong password to protect your account.</p>
+    <>
+      <NavBar />
+      <div className="page">
+        <div className="page-inner">
+          <div className="page-header">
+            <h1 className="page-title">Change Password</h1>
+            {notice && <span className="pill">{notice}</span>}
+          </div>
+          {error && <p className="muted">{error}</p>}
+          <div className="card">
+            <form onSubmit={handleSubmit} className="form-row">
+              <input
+                name="old_password"
+                type="password"
+                placeholder="Current password"
+                value={form.old_password}
+                onChange={handleChange}
+              />
+              <input
+                name="new_password"
+                type="password"
+                placeholder="New password"
+                value={form.new_password}
+                onChange={handleChange}
+              />
+              <button className="btn" type="submit">Update</button>
+            </form>
+            <p className="notice">Use a strong password to protect your account.</p>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

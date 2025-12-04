@@ -40,6 +40,9 @@ const LoginPage = () => {
       <div className="background-overlay"></div>
       <div className="header">
         <h1 className="logo">DRY NEWS</h1>
+        <p className="course-info">
+          CSGY-6083-B  Principles of Database Systems · Dawei Sun (ds8092) · Yikai Xu (yx3845) · Ruojing Song (rs9193)
+        </p>
       </div>
       
       <div className={`login-panel ${isPanelVisible ? 'visible' : ''}`}>

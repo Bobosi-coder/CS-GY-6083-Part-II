@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axiosClient from '../api/axiosClient';
+import NavBar from '../components/NavBar';
 
 const ReportQuery = ({ endpoint, title, question }) => {
     const [data, setData] = useState(null);
@@ -62,17 +63,22 @@ const AdminReports = () => {
     ];
 
     return (
-        <div>
-            <h2>Business Analysis Reports</h2>
-            {reports.map(r => <ReportQuery key={r.endpoint} {...r} />)}
-            <style>{`
-                .report-card { border: 1px solid #ccc; padding: 1rem; margin-bottom: 1rem; border-radius: 5px; }
-                pre { background-color: #f4f4f4; padding: 1rem; border-radius: 5px; white-space: pre-wrap; word-wrap: break-word; }
-                table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
-                th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-                th { background-color: #f2f2f2; }
-            `}</style>
-        </div>
+        <>
+            <NavBar />
+            <div className="page">
+                <div className="page-inner">
+                    <h2>Business Analysis Reports</h2>
+                    {reports.map(r => <ReportQuery key={r.endpoint} {...r} />)}
+                    <style>{`
+                        .report-card { border: 1px solid #1f2a44; padding: 1rem; margin-bottom: 1rem; border-radius: 10px; background: #0d1427; color: #e5e7eb; }
+                        pre { background-color: #0b1020; padding: 1rem; border-radius: 10px; white-space: pre-wrap; word-wrap: break-word; color: #e5e7eb; border: 1px solid #1f2a44; }
+                        table { width: 100%; border-collapse: collapse; margin-top: 1rem; color: #e5e7eb; }
+                        th, td { border: 1px solid #1f2a44; padding: 8px; text-align: left; }
+                        th { background-color: rgba(56, 189, 248, 0.08); }
+                    `}</style>
+                </div>
+            </div>
+        </>
     );
 };
 
