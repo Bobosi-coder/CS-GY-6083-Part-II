@@ -78,7 +78,7 @@ const ViewerProfile = () => {
                 <input name="CITY" placeholder="City" value={profile.CITY || ''} onChange={handleChange} />
                 <input name="STATE" placeholder="State" value={profile.STATE || ''} onChange={handleChange} />
                 <input name="ZIPCODE" placeholder="Zipcode" value={profile.ZIPCODE || ''} onChange={handleChange} />
-                <input name="CID" placeholder="Country ID" value={profile.CID || ''} onChange={handleChange} />
+                {/* <input name="CID" placeholder="Country ID" value={profile.CID || ''} onChange={handleChange} /> */}
               </div>
               <button className="btn" type="submit">Save</button>
             </form>
