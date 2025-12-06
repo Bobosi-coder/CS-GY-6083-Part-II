@@ -49,12 +49,18 @@ const AdminHome = () => {
     }, []);
 
     const [revenueGrowth, setRevenueGrowth] = useState([]);
+    const [totalRevenue, setTotalRevenue] = useState(0);
 
     useEffect(() => {
         axiosClient.get("/admin/revenue-growth")
             .then(data => {
-                console.log("Revenue Data:", data);
-                setRevenueGrowth(data);
+                const withGrowth = data.map((row, idx) => {
+                    const prev = idx > 0 ? data[idx - 1].revenue_new : null;
+                    const growthRate = prev && prev !== 0 ? row.revenue_new / prev : null;
+                    return { ...row, growth_rate: growthRate };
+                });
+                setTotalRevenue(withGrowth.length ? withGrowth[withGrowth.length - 1].revenue_total : 0);
+                setRevenueGrowth(withGrowth);
             })
             .catch(err => {
                 console.error(err);
@@ -154,16 +160,21 @@ const AdminHome = () => {
 
 
                     <div className="card" style={{ marginTop: "2rem" }}>
-                        <h3>Revenue Growth Over Time</h3>
+                        <div className="page-header" style={{ marginBottom: '1rem' }}>
+                            <h3 className="page-title">Revenue Growth Over Time</h3>
+                            <span className="pill">Total Revenue: {totalRevenue ? Number(totalRevenue).toLocaleString() : 0}</span>
+                        </div>
                         <ResponsiveContainer width="100%" height={300}>
                             <ComposedChart data={revenueGrowth}>
                                 <XAxis dataKey="month" />
-                                <YAxis yAxisId="left" stroke="#ffffffff" >
+                                <YAxis
+                                    yAxisId="left"
+                                    stroke="#ffffffff"
+                                    tickFormatter={(v) => v == null ? '' : `${(v * 100).toFixed(2)}%`}
+                                >
                                     <CartesianGrid strokeDasharray="3 3" />
                                 </YAxis>
-                                <YAxis yAxisId="right" orientation="right" stroke="#ffffff" >
-                                
-                                </YAxis>
+                                <YAxis yAxisId="right" orientation="right" stroke="#ffffff" />
                                 <Tooltip
                                     contentStyle={{ 
                                         backgroundColor: '#1a1a2e', 
@@ -176,6 +187,12 @@ const AdminHome = () => {
                                         marginBottom: '5px'
                                     }}
                                     itemStyle={{ color: '#ffffff' }}
+                                    formatter={(value, name) => {
+                                        if (name === 'Growth Rate') {
+                                            return [`${(value * 100).toFixed(2)}%`, name];
+                                        }
+                                        return [value, name];
+                                    }}
                                 />
                                 <Legend />
                                 
@@ -190,10 +207,11 @@ const AdminHome = () => {
                                 <Line 
                                     yAxisId="left"
                                     type="monotone"
-                                    dataKey="revenue_total"
+                                    dataKey="growth_rate"
                                     stroke="#ffffffff"
                                     strokeWidth={2}
-                                    name="Total Revenue"
+                                    name="Growth Rate"
+                                    dot={false}
                                 />
                             </ComposedChart>
                         </ResponsiveContainer>
