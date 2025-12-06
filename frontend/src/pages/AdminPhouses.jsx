@@ -10,6 +10,7 @@ const AdminPhouses = () => {
   const [editingId, setEditingId] = useState(null);
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
+  const [countries, setCountries] = useState([]);
 
   const load = async () => {
     try {
@@ -21,8 +22,18 @@ const AdminPhouses = () => {
     }
   };
 
+  const loadCountries = async () => {
+    try {
+      const data = await axiosClient.get('/countries');
+      setCountries(data);
+    } catch (err) {
+      setError(err.error || 'Failed to load countries');
+    }
+  };
+
   useEffect(() => {
     load();
+    loadCountries();
   }, []);
 
   const handleChange = (e) => {
@@ -65,7 +76,7 @@ const AdminPhouses = () => {
       state: row.STATE,
       zipcode: row.ZIPCODE,
       est_year: row.EST_YEAR,
-      cid: row.CID,
+      cid: String(row.CID),
     });
   };
 
@@ -97,7 +108,12 @@ const AdminPhouses = () => {
               <input name="state" placeholder="State" value={form.state} onChange={handleChange} />
               <input name="zipcode" placeholder="Zipcode" value={form.zipcode} onChange={handleChange} />
               <input name="est_year" type="number" placeholder="Est. Year" value={form.est_year} onChange={handleChange} />
-              <input name="cid" type="number" placeholder="Country ID" value={form.cid} onChange={handleChange} />
+              <select name="cid" value={form.cid} onChange={handleChange}>
+                <option value="">Select country</option>
+                {countries.map((c) => (
+                  <option key={c.CID} value={c.CID}>{c.CNAME}</option>
+                ))}
+              </select>
               <button className="btn" type="submit">{editingId ? 'Update' : 'Create'}</button>
               {editingId && (
                 <button className="btn btn-secondary" type="button" onClick={() => { setEditingId(null); setForm(emptyForm); }}>

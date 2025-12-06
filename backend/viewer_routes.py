@@ -63,7 +63,10 @@ def get_series_list():
                 s.NEPISODES,
                 s.ORI_LANG,
                 GROUP_CONCAT(DISTINCT st.TNAME ORDER BY st.TNAME SEPARATOR ', ') AS genres,
-                GROUP_CONCAT(DISTINCT src.CID ORDER BY src.CID SEPARATOR ',') AS country_ids,
+                COALESCE(
+                    CONCAT('[', GROUP_CONCAT(DISTINCT JSON_OBJECT('CID', c.CID, 'CNAME', c.CNAME) ORDER BY c.CNAME SEPARATOR ','), ']'),
+                    '[]'
+                ) AS countries,
                 AVG(f.RATE) AS avg_rating,
                 COUNT(DISTINCT f.ACCOUNT) AS feedback_count
             FROM
@@ -71,6 +74,7 @@ def get_series_list():
             LEFT JOIN DRY_SERIES_TYPE st ON s.SID = st.SID
             LEFT JOIN DRY_FEEDBACK f ON s.SID = f.SID
             LEFT JOIN DRY_SERIES_RELEASE_COUNTRY src ON s.SID = src.SID
+            LEFT JOIN DRY_COUNTRY c ON src.CID = c.CID
         """
         
         # Conditions and parameters for filtering

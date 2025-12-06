@@ -135,3 +135,18 @@ def me():
 def logout():
     session.clear()
     return jsonify({"message": "Logout successful"}), 200
+
+@bp.route('/countries', methods=['GET'])
+def get_countries():
+    """Returns a list of all countries."""
+    try:
+        db_conn = db.get_db()
+        cursor = db_conn.cursor(dictionary=True)
+        cursor.execute("SELECT CID, CNAME FROM DRY_COUNTRY ORDER BY CNAME")
+        countries = cursor.fetchall()
+        return jsonify(countries)
+    except Exception as e:
+        return jsonify({"error": "Database query failed", "details": str(e)}), 500
+    finally:
+        if 'cursor' in locals() and cursor:
+            cursor.close()
