@@ -23,6 +23,7 @@ const NavBar = () => {
     { to: '/admin/viewers', label: 'Viewers' },
     { to: '/admin/feedback', label: 'Feedback' },
     { to: '/admin/reports', label: 'Reports' },
+    { to: '/admin/history', label: 'History' },
   ];
 
   const links = user?.role === 'admin' ? adminLinks : viewerLinks;

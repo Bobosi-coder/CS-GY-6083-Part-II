@@ -464,6 +464,33 @@ def handle_contracts():
     finally:
         cursor.close()
 
+@bp.route('/history', methods=['GET'])
+@admin_required
+def list_history():
+    """List admin action history."""
+    try:
+        cursor = db.get_db().cursor(dictionary=True)
+        query = """
+            SELECT
+                h.HID,
+                h.ADMIN_ID,
+                CONCAT(a.FNAME, ' ', a.LNAME) AS admin_name,
+                h.ACTION_TS,
+                h.TARGET_TABLE,
+                h.ACTION_TYPE,
+                h.SQL_TEXT
+            FROM DRY_HISTORY h
+            LEFT JOIN DRY_ADMIN a ON h.ADMIN_ID = a.ADMIN_ID
+            ORDER BY h.ACTION_TS DESC, h.HID DESC
+        """
+        cursor.execute(query)
+        return jsonify(cursor.fetchall())
+    except Exception as e:
+        return jsonify({"error": "Failed to load history", "details": str(e)}), 500
+    finally:
+        if 'cursor' in locals() and cursor:
+            cursor.close()
+
 @bp.route('/contracts/<int:cid>', methods=['PUT', 'DELETE'])
 @admin_required
 def handle_single_contract(cid):
