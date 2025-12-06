@@ -462,3 +462,127 @@ VALUES
   ('Sweet and relaxing romance story.',      5,'2024-05-10', 3018, 1),
   ('Beautiful scenery and soundtrack.',      5,'2024-05-12', 3018, 2),
   ('A bit cliché but still enjoyable.',      4,'2024-05-14', 3018, 3);
+
+
+INSERT INTO dry_news_db.dry_viewer 
+(ACCOUNT, USERNAME, PASSWORD_HASH, FNAME, LNAME, STREET, CITY, STATE, ZIPCODE, OPEN_DATE, MCHARGE, CID) 
+VALUES
+(1001, 'viewer1001', 'fakehash', 'John', 'Lee', '101 Main St', 'New York', 'NY', '10001', '2024-01-03', 12.99, 1),
+(1002, 'viewer1002', 'fakehash', 'Amy', 'Park', '22 River Rd', 'Seoul', 'Seoul', '06236', '2024-01-06', 9.99, 2),
+(1003, 'viewer1003', 'fakehash', 'Kenji', 'Sato', '5 Shibuya St', 'Tokyo', 'Tokyo', '1500001', '2024-01-12', 11.49, 3),
+(1004, 'viewer1004', 'fakehash', 'Emma', 'Harris', '77 Broadway Ave', 'New York', 'NY', '10002', '2024-01-15', 9.99, 1),
+(1005, 'viewer1005', 'fakehash', 'Minjun', 'Kim', '12 Gangnam Rd', 'Seoul', 'Seoul', '06000', '2024-01-21', 12.99, 2),
+
+(1006, 'viewer1006', 'fakehash', 'Yuki', 'Tanaka', '44 Sakura St', 'Tokyo', 'Tokyo', '1600001', '2024-02-02', 11.49, 3),
+(1007, 'viewer1007', 'fakehash', 'Olivia', 'Clark', '88 Hudson St', 'New York', 'NY', '10013', '2024-02-05', 12.99, 1),
+(1008, 'viewer1008', 'fakehash', 'Jisoo', 'Choi', '11 Itaewon St', 'Seoul', 'Seoul', '04348', '2024-02-09', 9.99, 2),
+(1009, 'viewer1009', 'fakehash', 'Hiroshi', 'Kondo', '39 Shinjuku Ave', 'Tokyo', 'Tokyo', '1600022', '2024-02-14', 11.49, 3),
+(1010, 'viewer1010', 'fakehash', 'Daniel', 'Brown', '55 Wall St', 'New York', 'NY', '10005', '2024-02-20', 12.99, 1),
+
+(1011, 'viewer1011', 'fakehash', 'Sakura', 'Yamamoto', '8 Harajuku Rd', 'Tokyo', 'Tokyo', '1500002', '2024-03-01', 9.99, 3),
+(1012, 'viewer1012', 'fakehash', 'Soojin', 'Han', '66 Mapo St', 'Seoul', 'Seoul', '04102', '2024-03-06', 11.49, 2),
+(1013, 'viewer1013', 'fakehash', 'Ethan', 'Green', '101 Liberty Ave', 'New York', 'NY', '10007', '2024-03-09', 10.99, 1),
+(1014, 'viewer1014', 'fakehash', 'Mika', 'Suzuki', '7 Ginza St', 'Tokyo', 'Tokyo', '1040061', '2024-03-13', 11.49, 3),
+(1015, 'viewer1015', 'fakehash', 'Haerin', 'Jung', '23 Hongdae Rd', 'Seoul', 'Seoul', '03701', '2024-03-17', 9.99, 2),
+
+(1016, 'viewer1016', 'fakehash', 'Alex', 'Wright', '17 Madison St', 'New York', 'NY', '10009', '2024-04-01', 12.99, 1),
+(1017, 'viewer1017', 'fakehash', 'Rina', 'Kato', '14 Ikebukuro Rd', 'Tokyo', 'Tokyo', '1700013', '2024-04-04', 11.49, 3),
+(1018, 'viewer1018', 'fakehash', 'Hyun', 'Seo', '8 Songpa St', 'Seoul', 'Seoul', '05500', '2024-04-08', 10.99, 2),
+(1019, 'viewer1019', 'fakehash', 'Isabella', 'Lewis', '200 Broadway St', 'New York', 'NY', '10038', '2024-04-14', 9.99, 1),
+(1020, 'viewer1020', 'fakehash', 'Tomo', 'Ishikawa', '33 Ueno Park Rd', 'Tokyo', 'Tokyo', '1100007', '2024-04-18', 12.99, 3),
+
+(1021, 'viewer1021', 'fakehash', 'Jungwoo', 'Park', '90 Seoul Tower Rd', 'Seoul', 'Seoul', '04630', '2024-04-23', 11.49, 2),
+(1022, 'viewer1022', 'fakehash', 'Hana', 'Morimoto', '99 Shibuya Ave', 'Tokyo', 'Tokyo', '1500001', '2024-04-27', 10.99, 3),
+(1023, 'viewer1023', 'fakehash', 'Jason', 'Cooper', '41 Broadway Ave', 'New York', 'NY', '10012', '2024-05-02', 9.99, 1),
+(1024, 'viewer1024', 'fakehash', 'Minji', 'Son', '55 Gangseo Rd', 'Seoul', 'Seoul', '07500', '2024-05-06', 12.99, 2),
+(1025, 'viewer1025', 'fakehash', 'Ren', 'Fujita', '18 Akasaka St', 'Tokyo', 'Tokyo', '1070052', '2024-05-10', 11.49, 3),
+
+(1026, 'viewer1026', 'fakehash', 'Jaeho', 'Lee', '19 Maple Rd', 'Seoul', 'Seoul', '04520', '2024-05-15', 11.49, 2),
+(1027, 'viewer1027', 'fakehash', 'Haruto', 'Nakamura', '88 Roppongi St', 'Tokyo', 'Tokyo', '1060032', '2024-05-18', 9.99, 3),
+(1028, 'viewer1028', 'fakehash', 'Sophia', 'Adams', '300 5th Ave', 'New York', 'NY', '10018', '2024-05-22', 12.99, 1),
+(1029, 'viewer1029', 'fakehash', 'Minseo', 'Yoon', '12 Seocho Rd', 'Seoul', 'Seoul', '06500', '2024-05-27', 9.99, 2),
+(1030, 'viewer1030', 'fakehash', 'Riku', 'Hayashi', '7 Asakusa St', 'Tokyo', 'Tokyo', '1110032', '2024-05-30', 11.49, 3),
+
+(1031, 'viewer1031', 'fakehash', 'Daniel', 'Carter', '90 Riverside Dr', 'New York', 'NY', '10024', '2024-06-03', 12.99, 1),
+(1032, 'viewer1032', 'fakehash', 'Yuna', 'Kawasaki', '33 Meguro Ave', 'Tokyo', 'Tokyo', '1530063', '2024-06-08', 9.99, 3),
+(1033, 'viewer1033', 'fakehash', 'Hyeri', 'Shim', '200 Olympic Rd', 'Seoul', 'Seoul', '05550', '2024-06-10', 11.49, 2),
+(1034, 'viewer1034', 'fakehash', 'Ella', 'Morgan', '18 Houston St', 'New York', 'NY', '10002', '2024-06-14', 12.99, 1),
+(1035, 'viewer1035', 'fakehash', 'Taichi', 'Fujimoto', '5 Nakameguro Rd', 'Tokyo', 'Tokyo', '1530061', '2024-06-18', 10.99, 3),
+
+(1036, 'viewer1036', 'fakehash', 'Jiyoon', 'Kang', '77 Songdo Rd', 'Seoul', 'Seoul', '22012', '2024-06-22', 9.99, 2),
+(1037, 'viewer1037', 'fakehash', 'Hannah', 'Lopez', '12 Willow St', 'New York', 'NY', '10010', '2024-06-27', 11.49, 1),
+(1038, 'viewer1038', 'fakehash', 'Ren', 'Matsuda', '66 Akita Rd', 'Tokyo', 'Tokyo', '0100001', '2024-06-30', 12.99, 3),
+(1039, 'viewer1039', 'fakehash', 'Sunwoo', 'Cho', '8 Incheon Rd', 'Seoul', 'Seoul', '22350', '2024-07-03', 10.99, 2),
+(1040, 'viewer1040', 'fakehash', 'Liam', 'Baker', '59 West End Ave', 'New York', 'NY', '10023', '2024-07-07', 9.99, 1),
+
+(1041, 'viewer1041', 'fakehash', 'Aoi', 'Takeda', '44 Shinagawa Ave', 'Tokyo', 'Tokyo', '1400001', '2024-07-10', 11.49, 3),
+(1042, 'viewer1042', 'fakehash', 'Eunji', 'Hwang', '89 Apgujeong Rd', 'Seoul', 'Seoul', '06028', '2024-07-13', 12.99, 2),
+(1043, 'viewer1043', 'fakehash', 'James', 'Peterson', '14 Lexington Ave', 'New York', 'NY', '10016', '2024-07-17', 12.99, 1),
+(1044, 'viewer1044', 'fakehash', 'Nao', 'Sakamoto', '22 Sendai St', 'Tokyo', 'Tokyo', '9800001', '2024-07-20', 9.99, 3),
+(1045, 'viewer1045', 'fakehash', 'Yerin', 'Moon', '3 Jongno Rd', 'Seoul', 'Seoul', '03154', '2024-07-23', 11.49, 2),
+
+(1046, 'viewer1046', 'fakehash', 'Aiden', 'Reed', '11 Madison Ave', 'New York', 'NY', '10010', '2024-07-28', 12.99, 1),
+(1047, 'viewer1047', 'fakehash', 'Haruka', 'Yoshida', '50 Kyoto Rd', 'Tokyo', 'Tokyo', '6000001', '2024-08-01', 10.99, 3),
+(1048, 'viewer1048', 'fakehash', 'Jinho', 'Seo', '81 Haeundae St', 'Seoul', 'Seoul', '48094', '2024-08-03', 9.99, 2),
+(1049, 'viewer1049', 'fakehash', 'Michael', 'Ross', '300 Park Ave', 'New York', 'NY', '10022', '2024-08-07', 11.49, 1),
+(1050, 'viewer1050', 'fakehash', 'Sora', 'Kojima', '14 Odaiba Rd', 'Tokyo', 'Tokyo', '1350064', '2024-08-11', 12.99, 3),
+
+(1051, 'viewer1051', 'fakehash', 'Hannah', 'Kim', '44 Maple Rd', 'Seoul', 'Seoul', '04530', '2024-08-15', 11.49, 2),
+(1052, 'viewer1052', 'fakehash', 'Yuto', 'Tanaka', '88 Sakura Ave', 'Tokyo', 'Tokyo', '1500041', '2024-08-18', 12.99, 3),
+(1053, 'viewer1053', 'fakehash', 'Jacob', 'Foster', '120 Broadway', 'New York', 'NY', '10005', '2024-08-21', 9.99, 1),
+(1054, 'viewer1054', 'fakehash', 'Sumin', 'Lee', '55 Jongro Rd', 'Seoul', 'Seoul', '03160', '2024-08-25', 12.99, 2),
+(1055, 'viewer1055', 'fakehash', 'Kaito', 'Ishikawa', '7 Akasaka St', 'Tokyo', 'Tokyo', '1070052', '2024-08-29', 10.99, 3),
+
+(1056, 'viewer1056', 'fakehash', 'Julia', 'Reed', '400 Madison Ave', 'New York', 'NY', '10017', '2024-09-02', 11.49, 1),
+(1057, 'viewer1057', 'fakehash', 'Minji', 'Choi', '10 Yeouido Rd', 'Seoul', 'Seoul', '07345', '2024-09-06', 9.99, 2),
+(1058, 'viewer1058', 'fakehash', 'Ren', 'Ono', '33 Ikebukuro St', 'Tokyo', 'Tokyo', '1710022', '2024-09-10', 12.99, 3),
+(1059, 'viewer1059', 'fakehash', 'Evelyn', 'Turner', '250 West 57th St', 'New York', 'NY', '10107', '2024-09-13', 12.99, 1),
+(1060, 'viewer1060', 'fakehash', 'Jisoo', 'Han', '91 Gangnam Rd', 'Seoul', 'Seoul', '06123', '2024-09-18', 11.49, 2),
+
+(1061, 'viewer1061', 'fakehash', 'Sora', 'Miyazaki', '10 Shinjuku Ave', 'Tokyo', 'Tokyo', '1600022', '2024-09-22', 9.99, 3),
+(1062, 'viewer1062', 'fakehash', 'Noah', 'Ellis', '88 Central Park West', 'New York', 'NY', '10023', '2024-09-25', 12.99, 1),
+(1063, 'viewer1063', 'fakehash', 'Hayun', 'Park', '31 Apgujeong Rd', 'Seoul', 'Seoul', '06010', '2024-09-30', 10.99, 2),
+(1064, 'viewer1064', 'fakehash', 'Mika', 'Sato', '3 Shibuya Crossing', 'Tokyo', 'Tokyo', '1500002', '2024-10-03', 11.49, 3),
+(1065, 'viewer1065', 'fakehash', 'Ariana', 'Brooks', '611 West End Ave', 'New York', 'NY', '10024', '2024-10-06', 9.99, 1),
+
+(1066, 'viewer1066', 'fakehash', 'Jiwon', 'Seo', '42 Mapo Rd', 'Seoul', 'Seoul', '04101', '2024-10-10', 12.99, 2),
+(1067, 'viewer1067', 'fakehash', 'Haruki', 'Abe', '5 Ginza Ave', 'Tokyo', 'Tokyo', '1040061', '2024-10-14', 9.99, 3),
+(1068, 'viewer1068', 'fakehash', 'Chloe', 'Rivera', '122 Liberty St', 'New York', 'NY', '10006', '2024-10-18', 12.99, 1),
+(1069, 'viewer1069', 'fakehash', 'Yeji', 'Shim', '91 Dongdaemun Rd', 'Seoul', 'Seoul', '02450', '2024-10-21', 11.49, 2),
+(1070, 'viewer1070', 'fakehash', 'Kenta', 'Fukuoka', '81 Ueno Park Rd', 'Tokyo', 'Tokyo', '1100007', '2024-10-25', 10.99, 3),
+
+(1071, 'viewer1071', 'fakehash', 'Lily', 'Howard', '77 Hudson St', 'New York', 'NY', '10013', '2024-10-30', 12.99, 1),
+(1072, 'viewer1072', 'fakehash', 'Yeri', 'Kang', '22 Banpo Rd', 'Seoul', 'Seoul', '06500', '2024-11-03', 9.99, 2),
+(1073, 'viewer1073', 'fakehash', 'Kouji', 'Morita', '60 Harajuku Rd', 'Tokyo', 'Tokyo', '1500001', '2024-11-05', 11.49, 3),
+(1074, 'viewer1074', 'fakehash', 'Ian', 'Walker', '233 West 34th St', 'New York', 'NY', '10001', '2024-11-09', 10.99, 1),
+(1075, 'viewer1075', 'fakehash', 'Yuna', 'Seo', '16 Itaewon Rd', 'Seoul', 'Seoul', '04349', '2024-11-12', 12.99, 2),
+
+(1076, 'viewer1076', 'fakehash', 'Harper', 'Lewis', '500 Lexington Ave', 'New York', 'NY', '10022', '2024-11-15', 11.49, 1),
+(1077, 'viewer1077', 'fakehash', 'Jieun', 'Park', '33 Seolleung Rd', 'Seoul', 'Seoul', '06160', '2024-11-18', 9.99, 2),
+(1078, 'viewer1078', 'fakehash', 'Renji', 'Kuroda', '11 Nakano Rd', 'Tokyo', 'Tokyo', '1640001', '2024-11-20', 12.99, 3),
+(1079, 'viewer1079', 'fakehash', 'Aiden', 'Moore', '72 Fifth Ave', 'New York', 'NY', '10011', '2024-11-23', 10.99, 1),
+(1080, 'viewer1080', 'fakehash', 'Minseo', 'Yoon', '9 Daechi Ave', 'Seoul', 'Seoul', '06234', '2024-11-26', 12.99, 2),
+
+(1081, 'viewer1081', 'fakehash', 'Takumi', 'Hayashi', '55 Roppongi St', 'Tokyo', 'Tokyo', '1060032', '2024-11-29', 9.99, 3),
+(1082, 'viewer1082', 'fakehash', 'Ella', 'Carter', '680 Broadway', 'New York', 'NY', '10012', '2024-12-02', 12.99, 1),
+(1083, 'viewer1083', 'fakehash', 'Hyeri', 'Jung', '71 Dongjak Rd', 'Seoul', 'Seoul', '06900', '2024-12-05', 11.49, 2),
+(1084, 'viewer1084', 'fakehash', 'Kazu', 'Morimoto', '66 Asakusa Rd', 'Tokyo', 'Tokyo', '1110032', '2024-12-07', 10.99, 3),
+(1085, 'viewer1085', 'fakehash', 'Logan', 'Bennett', '900 Columbus Ave', 'New York', 'NY', '10025', '2024-12-10', 9.99, 1),
+
+(1086, 'viewer1086', 'fakehash', 'Sora', 'Jung', '8 Yeoksam Rd', 'Seoul', 'Seoul', '06233', '2024-12-12', 12.99, 2),
+(1087, 'viewer1087', 'fakehash', 'Yuji', 'Nakamura', '77 Meguro Rd', 'Tokyo', 'Tokyo', '1530063', '2024-12-15', 11.49, 3),
+(1088, 'viewer1088', 'fakehash', 'Grace', 'Hughes', '113 Wall St', 'New York', 'NY', '10005', '2024-12-17', 10.99, 1),
+(1089, 'viewer1089', 'fakehash', 'Jina', 'Kang', '44 Mokdong Rd', 'Seoul', 'Seoul', '07999', '2024-12-20', 9.99, 2),
+(1090, 'viewer1090', 'fakehash', 'Daichi', 'Fujita', '15 Oshiage Ave', 'Tokyo', 'Tokyo', '1310045', '2024-12-22', 12.99, 3),
+
+(1091, 'viewer1091', 'fakehash', 'Isabella', 'Morgan', '230 East 14th St', 'New York', 'NY', '10003', '2024-12-26', 11.49, 1),
+(1092, 'viewer1092', 'fakehash', 'Seojin', 'Kim', '92 Songpa Blvd', 'Seoul', 'Seoul', '05600', '2024-12-28', 12.99, 2),
+(1093, 'viewer1093', 'fakehash', 'Haruto', 'Matsuda', '8 Mitaka St', 'Tokyo', 'Tokyo', '1810001', '2024-12-30', 9.99, 3),
+(1094, 'viewer1094', 'fakehash', 'Ethan', 'Price', '391 7th Ave', 'New York', 'NY', '10001', '2025-01-02', 12.99, 1),
+(1095, 'viewer1095', 'fakehash', 'Jihye', 'An', '55 Yongsan Rd', 'Seoul', 'Seoul', '04390', '2025-01-04', 10.99, 2),
+
+(1096, 'viewer1096', 'fakehash', 'Riku', 'Amano', '12 Nerima Rd', 'Tokyo', 'Tokyo', '1760001', '2025-01-06', 11.49, 3),
+(1097, 'viewer1097', 'fakehash', 'Madison', 'Reid', '811 Lexington Ave', 'New York', 'NY', '10065', '2025-01-08', 9.99, 1),
+(1098, 'viewer1098', 'fakehash', 'Yuna', 'Kwon', '3 Samseong Rd', 'Seoul', 'Seoul', '06175', '2025-01-11', 11.49, 2),
+(1099, 'viewer1099', 'fakehash', 'Takeru', 'Sakai', '5 Nakameguro St', 'Tokyo', 'Tokyo', '1530061', '2025-01-13', 10.99, 3),
+(1100, 'viewer1100', 'fakehash', 'Ava', 'Mitchell', '55 Pearl St', 'New York', 'NY', '10004', '2025-01-15', 12.99, 1);
