@@ -622,3 +622,13 @@ VALUES
   -- Shinjuku Lights：viewer2 和 viewer3
   ('Dark and atmospheric thriller.',  4, '2024-07-25', 3006, 2),
   ('Loved the night scenes in Tokyo.',5, '2024-07-26', 3006, 3);
+
+
+CREATE OR REPLACE VIEW dry_news_db.viewer_growth_monthly AS
+SELECT 
+    DATE_FORMAT(OPEN_DATE, '%Y-%m') AS month,
+    COUNT(*) AS new_viewers
+FROM dry_news_db.dry_viewer
+GROUP BY DATE_FORMAT(OPEN_DATE, '%Y-%m')
+ORDER BY month;
+
