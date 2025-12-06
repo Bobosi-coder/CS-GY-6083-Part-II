@@ -599,4 +599,76 @@ def delete_feedback():
     finally:
         cursor.close()
 
+#————————————————XYK——————————————————————
+@bp.route('/viewer-growth', methods=['GET'])
+@admin_required
+def viewer_growth():
+    try:
+        db_conn = db.get_db()
+        cursor = db_conn.cursor(dictionary=True)
 
+        query = """
+            SELECT 
+                DATE_FORMAT(OPEN_DATE, '%Y-%m') AS month,
+                COUNT(*) AS new_viewers
+            FROM DRY_VIEWER
+            GROUP BY DATE_FORMAT(OPEN_DATE, '%Y-%m')
+            ORDER BY month
+        """
+        cursor.execute(query)
+        data = cursor.fetchall()
+
+        return jsonify(data)
+
+    except Exception as e:
+        return jsonify({"error": "Failed to fetch viewer growth", "details": str(e)}), 500
+
+    finally:
+        if 'cursor' in locals():
+            cursor.close()
+
+
+@bp.route('/revenue-growth', methods=['GET'])
+@admin_required
+def revenue_growth():
+    try:
+        db_conn = db.get_db()
+        cursor = db_conn.cursor(dictionary=True)
+
+        query = """
+            WITH monthly AS (
+                SELECT
+                    DATE_FORMAT(OPEN_DATE, '%Y-%m') AS month,
+                    SUM(MCHARGE) AS revenue_new
+                FROM DRY_VIEWER
+                GROUP BY DATE_FORMAT(OPEN_DATE, '%Y-%m')
+            ),
+            cumulative AS (
+                SELECT
+                    m1.month,
+                    (SELECT SUM(m2.revenue_new)
+                     FROM monthly m2
+                     WHERE m2.month <= m1.month
+                    ) AS revenue_total
+                FROM monthly m1
+            )
+            SELECT 
+                m.month,
+                m.revenue_new,
+                c.revenue_total
+            FROM monthly m
+            JOIN cumulative c ON m.month = c.month
+            ORDER BY m.month
+        """
+        cursor.execute(query)
+        data = cursor.fetchall()
+
+        return jsonify(data)
+
+    except Exception as e:
+        return jsonify({"error": "Failed to fetch revenue growth", "details": str(e)}), 500
+
+    finally:
+        if 'cursor' in locals():
+            cursor.close()
+#######————————————————XYK——————————————————————

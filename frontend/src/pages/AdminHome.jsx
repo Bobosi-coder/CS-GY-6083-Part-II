@@ -4,6 +4,24 @@ import axiosClient from '../api/axiosClient';
 import { Link } from 'react-router-dom';
 import NavBar from '../components/NavBar';
 
+//——————————XYK——————————
+import { 
+    LineChart, 
+    Line, 
+    BarChart,
+    Bar,
+    ComposedChart,
+    XAxis, 
+    YAxis, 
+    CartesianGrid, 
+    Tooltip, 
+    Legend, 
+    ResponsiveContainer 
+} from 'recharts';
+////////___________XYK_________
+
+
+
 const AdminHome = () => {
     const { user, logout } = useAuth();
     const [stats, setStats] = useState(null);
@@ -14,6 +32,37 @@ const AdminHome = () => {
             .then(setStats)
             .catch(err => setError(err.error || 'Could not fetch dashboard stats'));
     }, []);
+
+
+    //________XYK__________
+    const [viewerGrowth, setViewerGrowth] = useState([]);
+
+    useEffect(() => {
+        axiosClient.get("/admin/viewer-growth")
+            .then(data => {
+                console.log(data);
+                setViewerGrowth(data);
+            })
+            .catch(err => {
+                console.error(err);
+            });
+    }, []);
+
+    const [revenueGrowth, setRevenueGrowth] = useState([]);
+
+    useEffect(() => {
+        axiosClient.get("/admin/revenue-growth")
+            .then(data => {
+                console.log("Revenue Data:", data);
+                setRevenueGrowth(data);
+            })
+            .catch(err => {
+                console.error(err);
+            });
+    }, []);
+
+    ///////________XYK_________
+
 
     return (
         <>
@@ -67,6 +116,90 @@ const AdminHome = () => {
                             <p className="muted">Loading stats...</p>
                         )}
                     </div>
+
+                    {/* //________XYK________ */}
+
+                    <div className="card" style={{ marginTop: "2rem" }}>
+                        <h3>Viewer Growth Over Time</h3>
+                        <ResponsiveContainer width="100%" height={300}>
+                            <LineChart data={viewerGrowth}>
+                                <CartesianGrid strokeDasharray="3 3" />
+                                <XAxis dataKey="month" />
+                                <YAxis />
+
+                                <Tooltip
+                                    contentStyle={{ 
+                                        backgroundColor: '#1a1a2e', 
+                                        border: '1px solid #666',
+                                        borderRadius: '4px'
+                                    }}
+                                    labelStyle={{ 
+                                        fontWeight: "bold", 
+                                        color: '#ffffff',
+                                        marginBottom: '5px'
+                                    }}
+                                    itemStyle={{ color: '#ffffff' }}
+                                />
+                                <Legend />
+                                <Line 
+                                    type="monotone" 
+                                    dataKey="new_viewers" 
+                                    stroke="#ffffff" 
+                                    strokeWidth={2}
+                                    name="New Viewers"
+                                />
+                            </LineChart>
+                        </ResponsiveContainer>
+                    </div>
+
+
+                    <div className="card" style={{ marginTop: "2rem" }}>
+                        <h3>Revenue Growth Over Time</h3>
+                        <ResponsiveContainer width="100%" height={300}>
+                            <ComposedChart data={revenueGrowth}>
+                                <XAxis dataKey="month" />
+                                <YAxis yAxisId="left" stroke="#ffffffff" >
+                                    <CartesianGrid strokeDasharray="3 3" />
+                                </YAxis>
+                                <YAxis yAxisId="right" orientation="right" stroke="#ffffff" >
+                                
+                                </YAxis>
+                                <Tooltip
+                                    contentStyle={{ 
+                                        backgroundColor: '#1a1a2e', 
+                                        border: '1px solid #666',
+                                        borderRadius: '4px'
+                                    }}
+                                    labelStyle={{ 
+                                        fontWeight: "bold", 
+                                        color: '#ffffff',
+                                        marginBottom: '5px'
+                                    }}
+                                    itemStyle={{ color: '#ffffff' }}
+                                />
+                                <Legend />
+                                
+                                <Bar 
+                                    yAxisId="right"
+                                    dataKey="revenue_new" 
+                                    fill="#396182ff"
+                                    name="New Revenue"
+                                    barSize={30}
+                                />
+                                
+                                <Line 
+                                    yAxisId="left"
+                                    type="monotone"
+                                    dataKey="revenue_total"
+                                    stroke="#ffffffff"
+                                    strokeWidth={2}
+                                    name="Total Revenue"
+                                />
+                            </ComposedChart>
+                        </ResponsiveContainer>
+                    </div>
+                    {/* ///////________XYK________ */}
+
                 </div>
             </div>
         </>
