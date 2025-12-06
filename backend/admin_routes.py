@@ -431,8 +431,6 @@ def handle_collaborations():
     finally:
         cursor.close()
 
-# --- Contracts CRUD ---
-# ... similar to phouses ...
 
 # --- Contracts CRUD ---
 @bp.route('/contracts', methods=['GET', 'POST'])
