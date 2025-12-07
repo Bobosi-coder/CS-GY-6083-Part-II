@@ -78,6 +78,10 @@ The frontend development server runs on `http://localhost:3000`.
 *   **Login:** Use the login page for both 'viewer' and 'admin' accounts.
     *   Admin username: `admin`, password: `Admin!123`
     *   Viewer usernames: `viewer1`, `viewer2`, `viewer3`, with passwords `viewer1!`, `viewer2!`, `viewer3!` respectively.
+    *   Viewer security question and answers: 
+        `viewer1` with question `What is the name of your first pet?`, answer `Tommy`. 
+        `viewer2` with question `What city were you born in?`, answer `Busan`. 
+        `viewer3` with question `What is your favorite fruit?`, answer `Peach`. 
 *   **Registration:** New viewer accounts can be created via the "Sign up now" link on the login page.
 *   **Roles:** The application will redirect you to the appropriate dashboard based on your role after login.
     *   **Viewers** can browse series, view details, and manage their own feedback and profile.

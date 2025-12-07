@@ -632,3 +632,25 @@ FROM dry_news_db.dry_viewer
 GROUP BY DATE_FORMAT(OPEN_DATE, '%Y-%m')
 ORDER BY month;
 
+
+
+
+------------------     添加密保问题和答案    ---------------
+ALTER TABLE DRY_VIEWER
+  ADD SECURITY_QUESTION VARCHAR(255) NULL COMMENT 'security question (optional)',
+  ADD SECURITY_ANSWER   VARCHAR(255) NULL COMMENT 'security answer (optional)';
+
+UPDATE DRY_VIEWER
+SET SECURITY_QUESTION = 'What is the name of your first pet?',
+    SECURITY_ANSWER = 'Tommy'
+WHERE ACCOUNT = 1;
+
+UPDATE DRY_VIEWER
+SET SECURITY_QUESTION = 'What city were you born in?',
+    SECURITY_ANSWER = 'Busan'
+WHERE ACCOUNT = 2;
+
+UPDATE DRY_VIEWER
+SET SECURITY_QUESTION = 'What is your favorite fruit?',
+    SECURITY_ANSWER = 'Peach'
+WHERE ACCOUNT = 3;

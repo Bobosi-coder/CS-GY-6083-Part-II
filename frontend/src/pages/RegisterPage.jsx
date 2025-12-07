@@ -13,7 +13,9 @@ const RegisterPage = () => {
         city: '',
         state: '',
         zipcode: '',
-        cid: ''
+        cid: '',
+        security_question: '',
+        security_answer: ''
     });
     const [error, setError] = useState('');
     const { register } = useAuth();
@@ -53,6 +55,8 @@ const RegisterPage = () => {
                     <input name="state" value={formData.state} onChange={handleChange} placeholder="State" required />
                     <input name="zipcode" value={formData.zipcode} onChange={handleChange} placeholder="Zipcode" required />
                     <input name="cid" type="number" value={formData.cid} onChange={handleChange} placeholder="Country ID" required />
+                    <input name="security_question" value={formData.security_question} onChange={handleChange} placeholder="Security Question" required />
+                    <input name="security_answer" value={formData.security_answer} onChange={handleChange} placeholder="Security Answer" required />
                     
                     {error && <p className="error-message">{error}</p>}
                     <button type="submit">Register</button>

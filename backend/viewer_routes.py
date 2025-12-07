@@ -306,20 +306,30 @@ def change_password():
     data = request.get_json()
     old_password = data.get('old_password')
     new_password = data.get('new_password')
+    security_answer = data.get('security_answer')
     viewer_id = session['user_id']
 
-    if not old_password or not new_password:
-        return jsonify({"error": "Old and new passwords are required"}), 400
+    if not old_password or not security_answer or not new_password:
+        return jsonify({"error": "Old password, security answer and new password are required"}), 400
 
     db_conn = db.get_db()
     cursor = db_conn.cursor(dictionary=True)
 
     try:
-        cursor.execute("SELECT PASSWORD_HASH FROM DRY_VIEWER WHERE ACCOUNT = %s", (viewer_id,))
+        cursor.execute("SELECT PASSWORD_HASH, SECURITY_ANSWER FROM DRY_VIEWER WHERE ACCOUNT = %s", (viewer_id,))
         user = cursor.fetchone()
 
-        if not user or not check_password_hash(user['PASSWORD_HASH'], old_password):
+        if not user:
+            return jsonify({"error": "User not found"}), 404
+
+        if not check_password_hash(user['PASSWORD_HASH'], old_password):
             return jsonify({"error": "Invalid old password"}), 401
+
+        if not user.get('SECURITY_ANSWER'):
+            return jsonify({"error": "Security answer not set for this account"}), 400
+
+        if user['SECURITY_ANSWER'].strip() != security_answer.strip():
+            return jsonify({"error": "Incorrect security answer"}), 401
 
         new_password_hash = generate_password_hash(new_password, method="pbkdf2:sha256", salt_length=16)
         
@@ -333,3 +343,15 @@ def change_password():
         return jsonify({"error": "Database operation failed", "details": str(e)}), 500
     finally:
         cursor.close()
+
+@bp.route('/security-question', methods=['GET'])
+@viewer_required
+def get_security_question():
+    viewer_id = session['user_id']
+    cursor = db.get_db().cursor(dictionary=True)
+    cursor.execute("SELECT SECURITY_QUESTION FROM DRY_VIEWER WHERE ACCOUNT = %s", (viewer_id,))
+    row = cursor.fetchone()
+    cursor.close()
+    if not row or not row.get('SECURITY_QUESTION'):
+        return jsonify({"error": "Security question not set"}), 404
+    return jsonify({"security_question": row['SECURITY_QUESTION']})
