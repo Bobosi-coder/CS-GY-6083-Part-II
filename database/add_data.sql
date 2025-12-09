@@ -464,7 +464,7 @@ VALUES
   ('A bit cliché but still enjoyable.',      4,'2024-05-14', 3018, 3);
 
 
-INSERT INTO dry_news_db.dry_viewer 
+INSERT INTO dry_news_db.DRY_VIEWER 
 (ACCOUNT, USERNAME, PASSWORD_HASH, FNAME, LNAME, STREET, CITY, STATE, ZIPCODE, OPEN_DATE, MCHARGE, CID) 
 VALUES
 (1001, 'viewer1001', 'fakehash', 'John', 'Lee', '101 Main St', 'New York', 'NY', '10001', '2024-01-03', 12.99, 1),

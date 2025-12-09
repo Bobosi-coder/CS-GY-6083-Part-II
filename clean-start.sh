@@ -18,8 +18,8 @@ echo ""
 echo "3. Starting database (fresh)..."
 sudo docker-compose up -d db
 
-echo "   Waiting for database initialization (60 seconds)..."
-for i in {60..1}; do
+echo "   Waiting for database initialization (30 seconds)..."
+for i in {30..1}; do
     echo -ne "   $i seconds remaining...\r"
     sleep 1
 done

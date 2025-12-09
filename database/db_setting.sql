@@ -493,7 +493,7 @@ VALUES
 
 
 
------------------------------   新增series相关数据 ------------------------------------
+-- ---------------------------   新增series相关数据 ------------------------------------
 USE dry_news_db;
 
 -- ----------------------------------------------------------
@@ -628,14 +628,14 @@ CREATE OR REPLACE VIEW dry_news_db.viewer_growth_monthly AS
 SELECT 
     DATE_FORMAT(OPEN_DATE, '%Y-%m') AS month,
     COUNT(*) AS new_viewers
-FROM dry_news_db.dry_viewer
+FROM dry_news_db.DRY_VIEWER
 GROUP BY DATE_FORMAT(OPEN_DATE, '%Y-%m')
 ORDER BY month;
 
 
 
 
-------------------     添加密保问题和答案    ---------------
+-- ----------------     添加密保问题和答案    ---------------
 ALTER TABLE DRY_VIEWER
   ADD SECURITY_QUESTION VARCHAR(255) NULL COMMENT 'security question (optional)',
   ADD SECURITY_ANSWER   VARCHAR(255) NULL COMMENT 'security answer (optional)';
