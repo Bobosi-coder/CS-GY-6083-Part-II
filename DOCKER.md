@@ -22,8 +22,13 @@ cp .env.example .env
 Edit `.env` and update the values as needed (especially the SECRET_KEY for production).
 
 ### 2. Build and Start Services
+Quick Build-and-Strat
 
-Build and start all services (database, backend, frontend):
+```bash
+./clean-start.sh
+```
+
+Or Manual Build-and-Start all services (database, backend, frontend):
 
 ```bash
 docker-compose up --build
