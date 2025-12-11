@@ -2,13 +2,26 @@ from flask import Flask
 from flask_cors import CORS
 from config import Config
 import db
+import os
 
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
 
-    # Enable CORS
-    CORS(app, supports_credentials=True, resources={r"/api/*": {"origins": "http://localhost:3000"}})
+    # Enable CORS - support both local development and Docker environment
+    allowed_origins = [
+        "http://localhost:3000",  # Local development
+        "http://localhost",        # Docker frontend on port 80
+        "http://127.0.0.1:3000",
+        "http://127.0.0.1"
+    ]
+    
+    # Add custom origin if specified in environment
+    custom_origin = os.environ.get('FRONTEND_URL')
+    if custom_origin:
+        allowed_origins.append(custom_origin)
+    
+    CORS(app, supports_credentials=True, resources={r"/api/*": {"origins": allowed_origins}})
 
     # Initialize DB
     db.init_app(app)

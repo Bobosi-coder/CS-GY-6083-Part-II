@@ -17,30 +17,23 @@ def viewer_required(f):
 @bp.route('/recommendations', methods=['GET'])
 @viewer_required
 def get_recommendations():
-    """Returns top 5 series by average feedback rating."""
     try:
         db_conn = db.get_db()
         cursor = db_conn.cursor(dictionary=True)
-        query = """
-            SELECT
-                s.SID,
-                s.SNAME,
-                s.ORI_LANG,
-                AVG(f.RATE) AS avg_rating
-            FROM DRY_SERIES s
-            JOIN DRY_FEEDBACK f ON s.SID = f.SID
-            GROUP BY s.SID, s.SNAME, s.ORI_LANG
-            ORDER BY avg_rating DESC
-            LIMIT 5;
-        """
-        cursor.execute(query)
-        recommendations = cursor.fetchall()
+        
+        # 调用存储过程（而不是直接SQL查询）
+        cursor.callproc('GetTopSeriesByRating', [5])
+        
+        # 获取存储过程的结果
+        recommendations = []
+        for result in cursor.stored_results():
+            recommendations = result.fetchall()
+        
         return jsonify(recommendations)
     except Exception as e:
-        return jsonify({"error": "Database query failed", "details": str(e)}), 500
+        return jsonify({"error": str(e)}), 500
     finally:
-        if 'cursor' in locals() and cursor:
-            cursor.close()
+        cursor.close()
 
 @bp.route('/series', methods=['GET'])
 @viewer_required
