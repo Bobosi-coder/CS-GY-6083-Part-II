@@ -586,3 +586,56 @@ VALUES
 (1098, 'viewer1098', 'fakehash', 'Yuna', 'Kwon', '3 Samseong Rd', 'Seoul', 'Seoul', '06175', '2025-01-11', 11.49, 2),
 (1099, 'viewer1099', 'fakehash', 'Takeru', 'Sakai', '5 Nakameguro St', 'Tokyo', 'Tokyo', '1530061', '2025-01-13', 10.99, 3),
 (1100, 'viewer1100', 'fakehash', 'Ava', 'Mitchell', '55 Pearl St', 'New York', 'NY', '10004', '2025-01-15', 12.99, 1);
+
+
+
+------------------------------------------------------------
+-- 示例：向历史表插入几条操作记录
+------------------------------------------------------------
+
+INSERT INTO DRY_ADMIN_HISTORY
+  (ADMIN_ID, ACTION_TS, TARGET_TABLE, ACTION_TYPE, SQL_TEXT)
+VALUES
+  -- 1. 管理员新增一部剧 London Fog
+  (
+    1,
+    '2024-08-20 10:15:32',
+    'DRY_SERIES',
+    'INSERT',
+    'INSERT INTO DRY_SERIES (SID, SNAME, NEPISODES, ORI_LANG)
+     VALUES (3004, ''London Fog'', 7, ''English'');'
+  ),
+
+  -- 2. 管理员为 London Fog 新增第一集
+  (
+    1,
+    '2024-08-20 10:18:05',
+    'DRY_EPISODE',
+    'INSERT',
+    'INSERT INTO DRY_EPISODE
+       (EID, E_NUM, SCHEDULE_SDATE, SCHEDULE_EDATE, NVIEWERS, SID, INTERRUPTION)
+     VALUES
+       (80007, 1, ''2024-08-01'', ''2024-08-01'', 54000, 3004, ''N'');'
+  ),
+
+  -- 3. 管理员调整 viewer2 的月费
+  (
+    1,
+    '2024-08-21 09:02:11',
+    'DRY_VIEWER',
+    'UPDATE',
+    'UPDATE DRY_VIEWER
+       SET MCHARGE = 10.99
+     WHERE ACCOUNT = 2;'
+  ),
+
+  -- 4. 管理员删除一条针对 Neon Nights 的差评
+  (
+    1,
+    '2024-08-22 14:30:45',
+    'DRY_FEEDBACK',
+    'DELETE',
+    'DELETE FROM DRY_FEEDBACK
+      WHERE SID = 3001
+        AND ACCOUNT = 2;'
+  );

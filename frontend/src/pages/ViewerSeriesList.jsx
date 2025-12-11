@@ -100,7 +100,7 @@ const ViewerSeriesList = () => {
                 {options.genres.map((g) => <option key={g} value={g}>{g}</option>)}
               </select>
               <select name="language" value={filters.language} onChange={handleFilterChange}>
-                <option value="">All languages</option>
+                <option value="">All original languages</option>
                 {options.languages.map((l) => <option key={l} value={l}>{l}</option>)}
               </select>
               {/* <select name="country" value={filters.country} onChange={handleFilterChange}>

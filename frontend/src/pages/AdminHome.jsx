@@ -170,7 +170,7 @@ const AdminHome = () => {
                                 <YAxis
                                     yAxisId="left"
                                     stroke="#ffffffff"
-                                    tickFormatter={(v) => v == null ? '' : `${(v * 100).toFixed(2)}%`}
+                                    tickFormatter={(v) => v == null ? '' : `${(v * 100).toFixed(1)}%`}
                                 >
                                     <CartesianGrid strokeDasharray="3 3" />
                                 </YAxis>

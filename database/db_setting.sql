@@ -212,6 +212,26 @@ CREATE TABLE DRY_ADMIN (
 ) ENGINE=InnoDB;
 
 ------------------------------------------------------------
+-- Admin 操作历史表
+------------------------------------------------------------
+
+CREATE TABLE DRY_ADMIN_HISTORY (
+  HID          BIGINT NOT NULL AUTO_INCREMENT COMMENT 'surrogate key of history record',
+  ADMIN_ID     INT    NOT NULL COMMENT 'admin user who executed the action',
+  ACTION_TS    DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'timestamp of the action',
+  TARGET_TABLE VARCHAR(64) NOT NULL COMMENT 'target table name, e.g. DRY_SERIES',
+  ACTION_TYPE  VARCHAR(10) NOT NULL COMMENT 'INSERT / UPDATE / DELETE',
+  SQL_TEXT     TEXT NOT NULL COMMENT 'executed SQL statement text',
+  PRIMARY KEY (HID),
+  CONSTRAINT chk_history_action_type CHECK (ACTION_TYPE IN ('INSERT','UPDATE','DELETE'))
+) ENGINE=InnoDB;
+
+-- 外键：哪个管理员做的
+ALTER TABLE DRY_ADMIN_HISTORY
+  ADD CONSTRAINT HISTORY_ADMIN_FK
+  FOREIGN KEY (ADMIN_ID) REFERENCES DRY_ADMIN (ADMIN_ID);
+
+------------------------------------------------------------
 -- 外键约束
 ------------------------------------------------------------
 
