@@ -654,3 +654,50 @@ UPDATE DRY_VIEWER
 SET SECURITY_QUESTION = 'What is your favorite fruit?',
     SECURITY_ANSWER = 'Peach'
 WHERE ACCOUNT = 3;
+
+-- ----------------     添加存储过程    ---------------
+
+DELIMITER $$
+
+CREATE PROCEDURE GetTopSeriesByRating(IN limit_count INT)
+BEGIN
+    SELECT
+        s.SID,
+        s.SNAME,
+        s.ORI_LANG,
+        AVG(f.RATE) AS avg_rating
+    FROM DRY_SERIES s
+    JOIN DRY_FEEDBACK f ON s.SID = f.SID
+    GROUP BY s.SID, s.SNAME, s.ORI_LANG
+    ORDER BY avg_rating DESC
+    LIMIT limit_count;
+END$$
+
+DELIMITER ;
+
+-- ==================================================
+-- 性能优化索引
+-- ==================================================
+
+-- 索引说明：
+-- 根据应用的查询模式分析，我们为高频查询字段创建索引以提升性能
+
+-- 1. 反馈表：按剧集查询并按日期排序（最频繁的查询之一）
+CREATE INDEX idx_feedback_sid_fdate ON DRY_FEEDBACK(SID, FDATE DESC)
+COMMENT '用于查询某剧集的反馈并按日期倒序排列，覆盖WHERE SID=? ORDER BY FDATE DESC查询';
+
+-- 2. 反馈表：日期范围查询（管理员dashboard统计）
+CREATE INDEX idx_feedback_fdate ON DRY_FEEDBACK(FDATE)
+COMMENT '用于按日期范围统计反馈，如最近7天、30天的反馈数';
+
+-- 3. 剧集表：按语言筛选
+CREATE INDEX idx_series_ori_lang ON DRY_SERIES(ORI_LANG)
+COMMENT '用于按原始语言筛选剧集';
+
+-- 4. 观众表：按开户日期统计（增长趋势分析）
+CREATE INDEX idx_viewer_open_date ON DRY_VIEWER(OPEN_DATE)
+COMMENT '用于按月/年统计新增观众，支持viewer_growth_monthly视图';
+
+-- 5. 集数表：按剧集查询集数
+CREATE INDEX idx_episode_sid_enum ON DRY_EPISODE(SID, E_NUM)
+COMMENT '用于查询某剧集的所有集数并按集数排序';
