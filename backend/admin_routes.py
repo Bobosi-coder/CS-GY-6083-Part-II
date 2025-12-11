@@ -431,8 +431,6 @@ def handle_collaborations():
     finally:
         cursor.close()
 
-# --- Contracts CRUD ---
-# ... similar to phouses ...
 
 # --- Contracts CRUD ---
 @bp.route('/contracts', methods=['GET', 'POST'])
@@ -465,6 +463,33 @@ def handle_contracts():
         return jsonify({"error": str(e)}), 500
     finally:
         cursor.close()
+
+@bp.route('/history', methods=['GET'])
+@admin_required
+def list_history():
+    """List admin action history."""
+    try:
+        cursor = db.get_db().cursor(dictionary=True)
+        query = """
+            SELECT
+                h.HID,
+                h.ADMIN_ID,
+                CONCAT(a.FNAME, ' ', a.LNAME) AS admin_name,
+                h.ACTION_TS,
+                h.TARGET_TABLE,
+                h.ACTION_TYPE,
+                h.SQL_TEXT
+            FROM DRY_HISTORY h
+            LEFT JOIN DRY_ADMIN a ON h.ADMIN_ID = a.ADMIN_ID
+            ORDER BY h.ACTION_TS DESC, h.HID DESC
+        """
+        cursor.execute(query)
+        return jsonify(cursor.fetchall())
+    except Exception as e:
+        return jsonify({"error": "Failed to load history", "details": str(e)}), 500
+    finally:
+        if 'cursor' in locals() and cursor:
+            cursor.close()
 
 @bp.route('/contracts/<int:cid>', methods=['PUT', 'DELETE'])
 @admin_required
@@ -601,4 +626,76 @@ def delete_feedback():
     finally:
         cursor.close()
 
+#————————————————XYK——————————————————————
+@bp.route('/viewer-growth', methods=['GET'])
+@admin_required
+def viewer_growth():
+    try:
+        db_conn = db.get_db()
+        cursor = db_conn.cursor(dictionary=True)
 
+        query = """
+            SELECT 
+                DATE_FORMAT(OPEN_DATE, '%Y-%m') AS month,
+                COUNT(*) AS new_viewers
+            FROM DRY_VIEWER
+            GROUP BY DATE_FORMAT(OPEN_DATE, '%Y-%m')
+            ORDER BY month
+        """
+        cursor.execute(query)
+        data = cursor.fetchall()
+
+        return jsonify(data)
+
+    except Exception as e:
+        return jsonify({"error": "Failed to fetch viewer growth", "details": str(e)}), 500
+
+    finally:
+        if 'cursor' in locals():
+            cursor.close()
+
+
+@bp.route('/revenue-growth', methods=['GET'])
+@admin_required
+def revenue_growth():
+    try:
+        db_conn = db.get_db()
+        cursor = db_conn.cursor(dictionary=True)
+
+        query = """
+            WITH monthly AS (
+                SELECT
+                    DATE_FORMAT(OPEN_DATE, '%Y-%m') AS month,
+                    SUM(MCHARGE) AS revenue_new
+                FROM DRY_VIEWER
+                GROUP BY DATE_FORMAT(OPEN_DATE, '%Y-%m')
+            ),
+            cumulative AS (
+                SELECT
+                    m1.month,
+                    (SELECT SUM(m2.revenue_new)
+                     FROM monthly m2
+                     WHERE m2.month <= m1.month
+                    ) AS revenue_total
+                FROM monthly m1
+            )
+            SELECT 
+                m.month,
+                m.revenue_new,
+                c.revenue_total
+            FROM monthly m
+            JOIN cumulative c ON m.month = c.month
+            ORDER BY m.month
+        """
+        cursor.execute(query)
+        data = cursor.fetchall()
+
+        return jsonify(data)
+
+    except Exception as e:
+        return jsonify({"error": "Failed to fetch revenue growth", "details": str(e)}), 500
+
+    finally:
+        if 'cursor' in locals():
+            cursor.close()
+#######————————————————XYK——————————————————————

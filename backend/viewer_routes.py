@@ -17,30 +17,23 @@ def viewer_required(f):
 @bp.route('/recommendations', methods=['GET'])
 @viewer_required
 def get_recommendations():
-    """Returns top 5 series by average feedback rating."""
     try:
         db_conn = db.get_db()
         cursor = db_conn.cursor(dictionary=True)
-        query = """
-            SELECT
-                s.SID,
-                s.SNAME,
-                s.ORI_LANG,
-                AVG(f.RATE) AS avg_rating
-            FROM DRY_SERIES s
-            JOIN DRY_FEEDBACK f ON s.SID = f.SID
-            GROUP BY s.SID, s.SNAME, s.ORI_LANG
-            ORDER BY avg_rating DESC
-            LIMIT 5;
-        """
-        cursor.execute(query)
-        recommendations = cursor.fetchall()
+        
+        # 调用存储过程（而不是直接SQL查询）
+        cursor.callproc('GetTopSeriesByRating', [5])
+        
+        # 获取存储过程的结果
+        recommendations = []
+        for result in cursor.stored_results():
+            recommendations = result.fetchall()
+        
         return jsonify(recommendations)
     except Exception as e:
-        return jsonify({"error": "Database query failed", "details": str(e)}), 500
+        return jsonify({"error": str(e)}), 500
     finally:
-        if 'cursor' in locals() and cursor:
-            cursor.close()
+        cursor.close()
 
 @bp.route('/series', methods=['GET'])
 @viewer_required
@@ -63,7 +56,10 @@ def get_series_list():
                 s.NEPISODES,
                 s.ORI_LANG,
                 GROUP_CONCAT(DISTINCT st.TNAME ORDER BY st.TNAME SEPARATOR ', ') AS genres,
-                GROUP_CONCAT(DISTINCT src.CID ORDER BY src.CID SEPARATOR ',') AS country_ids,
+                COALESCE(
+                    CONCAT('[', GROUP_CONCAT(DISTINCT JSON_OBJECT('CID', c.CID, 'CNAME', c.CNAME) ORDER BY c.CNAME SEPARATOR ','), ']'),
+                    '[]'
+                ) AS countries,
                 AVG(f.RATE) AS avg_rating,
                 COUNT(DISTINCT f.ACCOUNT) AS feedback_count
             FROM
@@ -71,6 +67,7 @@ def get_series_list():
             LEFT JOIN DRY_SERIES_TYPE st ON s.SID = st.SID
             LEFT JOIN DRY_FEEDBACK f ON s.SID = f.SID
             LEFT JOIN DRY_SERIES_RELEASE_COUNTRY src ON s.SID = src.SID
+            LEFT JOIN DRY_COUNTRY c ON src.CID = c.CID
         """
         
         # Conditions and parameters for filtering
@@ -302,20 +299,30 @@ def change_password():
     data = request.get_json()
     old_password = data.get('old_password')
     new_password = data.get('new_password')
+    security_answer = data.get('security_answer')
     viewer_id = session['user_id']
 
-    if not old_password or not new_password:
-        return jsonify({"error": "Old and new passwords are required"}), 400
+    if not old_password or not security_answer or not new_password:
+        return jsonify({"error": "Old password, security answer and new password are required"}), 400
 
     db_conn = db.get_db()
     cursor = db_conn.cursor(dictionary=True)
 
     try:
-        cursor.execute("SELECT PASSWORD_HASH FROM DRY_VIEWER WHERE ACCOUNT = %s", (viewer_id,))
+        cursor.execute("SELECT PASSWORD_HASH, SECURITY_ANSWER FROM DRY_VIEWER WHERE ACCOUNT = %s", (viewer_id,))
         user = cursor.fetchone()
 
-        if not user or not check_password_hash(user['PASSWORD_HASH'], old_password):
+        if not user:
+            return jsonify({"error": "User not found"}), 404
+
+        if not check_password_hash(user['PASSWORD_HASH'], old_password):
             return jsonify({"error": "Invalid old password"}), 401
+
+        if not user.get('SECURITY_ANSWER'):
+            return jsonify({"error": "Security answer not set for this account"}), 400
+
+        if user['SECURITY_ANSWER'].strip() != security_answer.strip():
+            return jsonify({"error": "Incorrect security answer"}), 401
 
         new_password_hash = generate_password_hash(new_password, method="pbkdf2:sha256", salt_length=16)
         
@@ -329,3 +336,15 @@ def change_password():
         return jsonify({"error": "Database operation failed", "details": str(e)}), 500
     finally:
         cursor.close()
+
+@bp.route('/security-question', methods=['GET'])
+@viewer_required
+def get_security_question():
+    viewer_id = session['user_id']
+    cursor = db.get_db().cursor(dictionary=True)
+    cursor.execute("SELECT SECURITY_QUESTION FROM DRY_VIEWER WHERE ACCOUNT = %s", (viewer_id,))
+    row = cursor.fetchone()
+    cursor.close()
+    if not row or not row.get('SECURITY_QUESTION'):
+        return jsonify({"error": "Security question not set"}), 404
+    return jsonify({"security_question": row['SECURITY_QUESTION']})

@@ -11,6 +11,14 @@ export default defineConfig({
         target: 'http://127.0.0.1:5000',
         changeOrigin: true,
       },
+//__________XYK________________
+        '/api/admin': {
+        target: 'http://127.0.0.1:5000',
+        changeOrigin: true,
+        secure: false,
+        cookieDomainRewrite: "localhost",
+      },
+////////__________XYK__________
     },
   },
 })

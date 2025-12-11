@@ -17,8 +17,10 @@ def register():
     state = data.get('state')
     zipcode = data.get('zipcode')
     cid = data.get('cid')
+    security_question = data.get('security_question')
+    security_answer = data.get('security_answer')
 
-    if not all([username, password, fname, lname, street, city, state, zipcode, cid]):
+    if not all([username, password, fname, lname, street, city, state, zipcode, cid, security_question, security_answer]):
         return jsonify({"error": "Missing required fields"}), 400
 
     db_conn = db.get_db()
@@ -42,10 +44,10 @@ def register():
         mcharge = 9.99  # Default monthly charge
 
         query = """
-            INSERT INTO DRY_VIEWER (USERNAME, PASSWORD_HASH, FNAME, LNAME, STREET, CITY, STATE, ZIPCODE, OPEN_DATE, MCHARGE, CID)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            INSERT INTO DRY_VIEWER (USERNAME, PASSWORD_HASH, FNAME, LNAME, STREET, CITY, STATE, ZIPCODE, OPEN_DATE, MCHARGE, CID, SECURITY_QUESTION, SECURITY_ANSWER)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
         """
-        cursor.execute(query, (username, password_hash, fname, lname, street, city, state, zipcode, open_date, mcharge, cid))
+        cursor.execute(query, (username, password_hash, fname, lname, street, city, state, zipcode, open_date, mcharge, cid, security_question, security_answer))
         db_conn.commit()
         
         # Optionally, log the user in automatically after registration
@@ -135,3 +137,18 @@ def me():
 def logout():
     session.clear()
     return jsonify({"message": "Logout successful"}), 200
+
+@bp.route('/countries', methods=['GET'])
+def get_countries():
+    """Returns a list of all countries."""
+    try:
+        db_conn = db.get_db()
+        cursor = db_conn.cursor(dictionary=True)
+        cursor.execute("SELECT CID, CNAME FROM DRY_COUNTRY ORDER BY CNAME")
+        countries = cursor.fetchall()
+        return jsonify(countries)
+    except Exception as e:
+        return jsonify({"error": "Database query failed", "details": str(e)}), 500
+    finally:
+        if 'cursor' in locals() and cursor:
+            cursor.close()

@@ -6,7 +6,7 @@ const NavBar = () => {
   const { user, logout } = useAuth();
 
   const viewerLinks = [
-    { to: '/viewer/home', label: 'Home' },
+    // { to: '/viewer/home', label: 'Home' },
     { to: '/viewer/series', label: 'Series' },
     { to: '/viewer/my-feedback', label: 'My Feedback' },
     { to: '/viewer/profile', label: 'Profile' },
@@ -14,7 +14,7 @@ const NavBar = () => {
   ];
 
   const adminLinks = [
-    { to: '/admin/home', label: 'Dashboard' },
+    // { to: '/admin/home', label: 'Dashboard' },
     { to: '/admin/series', label: 'Series' },
     { to: '/admin/phouses', label: 'Prod. Houses' },
     { to: '/admin/producers', label: 'Producers' },
@@ -23,6 +23,7 @@ const NavBar = () => {
     { to: '/admin/viewers', label: 'Viewers' },
     { to: '/admin/feedback', label: 'Feedback' },
     { to: '/admin/reports', label: 'Reports' },
+    { to: '/admin/history', label: 'History' },
   ];
 
   const links = user?.role === 'admin' ? adminLinks : viewerLinks;

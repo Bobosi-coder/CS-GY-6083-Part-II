@@ -1,11 +1,22 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axiosClient from '../api/axiosClient';
 import NavBar from '../components/NavBar';
 
 const ViewerChangePassword = () => {
-  const [form, setForm] = useState({ old_password: '', new_password: '' });
+  const [form, setForm] = useState({ old_password: '', security_answer: '', new_password: '' });
+  const [question, setQuestion] = useState('');
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
+
+  useEffect(() => {
+    axiosClient.get('/viewer/security-question')
+      .then((data) => {
+        setQuestion(data.security_question);
+      })
+      .catch((err) => {
+        setError(err.error || 'Failed to load security question');
+      });
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -19,7 +30,7 @@ const ViewerChangePassword = () => {
     try {
       await axiosClient.post('/viewer/change-password', form);
       setNotice('Password updated');
-      setForm({ old_password: '', new_password: '' });
+      setForm({ old_password: '', security_answer: '', new_password: '' });
     } catch (err) {
       setError(err.error || 'Failed to update password');
     }
@@ -37,6 +48,18 @@ const ViewerChangePassword = () => {
           {error && <p className="muted">{error}</p>}
           <div className="card">
             <form onSubmit={handleSubmit} className="form-row">
+              <div className="form-group" style={{ width: '100%', textAlign: 'left' }}>
+                <label className="muted">Security question</label>
+                <div style={{ padding: '0.75rem 0.5rem', border: '1px solid #ccc', borderRadius: '6px', background: '#1f1f2e' }}>
+                  {question || 'Not set'}
+                </div>
+              </div>
+              <input
+                name="security_answer"
+                placeholder="Your answer"
+                value={form.security_answer}
+                onChange={handleChange}
+              />
               <input
                 name="old_password"
                 type="password"

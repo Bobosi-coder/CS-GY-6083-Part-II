@@ -1,0 +1,31 @@
+# Git
+.git
+.gitignore
+
+# Environment files
+.env
+.env.local
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Documentation (if not needed in container)
+*.md
+!README.md
+
+# Database files
+database/*.sql
+
+# Node modules (handled in frontend)
+frontend/node_modules/
+
+# Python cache (handled in backend)
+backend/__pycache__/
+backend/venv/

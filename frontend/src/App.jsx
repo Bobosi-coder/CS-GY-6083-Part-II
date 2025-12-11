@@ -25,6 +25,7 @@ import AdminViewers from './pages/AdminViewers';
 import AdminFeedback from './pages/AdminFeedback';
 import AdminReports from './pages/AdminReports';
 import AdminCollaboration from './pages/AdminCollaboration';
+import AdminHistory from './pages/AdminHistory';
 
 
 function App() {
@@ -61,6 +62,7 @@ function App() {
           <Route path="admin/viewers" element={<AdminViewers />} />
           <Route path="admin/feedback" element={<AdminFeedback />} />
           <Route path="admin/reports" element={<AdminReports />} />
+          <Route path="admin/history" element={<AdminHistory />} />
         </Route>
 
         {/* Fallback for unmatched routes */}

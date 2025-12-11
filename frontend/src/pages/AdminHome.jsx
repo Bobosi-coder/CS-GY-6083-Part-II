@@ -4,6 +4,24 @@ import axiosClient from '../api/axiosClient';
 import { Link } from 'react-router-dom';
 import NavBar from '../components/NavBar';
 
+//——————————XYK——————————
+import { 
+    LineChart, 
+    Line, 
+    BarChart,
+    Bar,
+    ComposedChart,
+    XAxis, 
+    YAxis, 
+    CartesianGrid, 
+    Tooltip, 
+    Legend, 
+    ResponsiveContainer 
+} from 'recharts';
+////////___________XYK_________
+
+
+
 const AdminHome = () => {
     const { user, logout } = useAuth();
     const [stats, setStats] = useState(null);
@@ -14,6 +32,43 @@ const AdminHome = () => {
             .then(setStats)
             .catch(err => setError(err.error || 'Could not fetch dashboard stats'));
     }, []);
+
+
+    //________XYK__________
+    const [viewerGrowth, setViewerGrowth] = useState([]);
+
+    useEffect(() => {
+        axiosClient.get("/admin/viewer-growth")
+            .then(data => {
+                console.log(data);
+                setViewerGrowth(data);
+            })
+            .catch(err => {
+                console.error(err);
+            });
+    }, []);
+
+    const [revenueGrowth, setRevenueGrowth] = useState([]);
+    const [totalRevenue, setTotalRevenue] = useState(0);
+
+    useEffect(() => {
+        axiosClient.get("/admin/revenue-growth")
+            .then(data => {
+                const withGrowth = data.map((row, idx) => {
+                    const prev = idx > 0 ? data[idx - 1].revenue_new : null;
+                    const growthRate = prev && prev !== 0 ? row.revenue_new / prev : null;
+                    return { ...row, growth_rate: growthRate };
+                });
+                setTotalRevenue(withGrowth.length ? withGrowth[withGrowth.length - 1].revenue_total : 0);
+                setRevenueGrowth(withGrowth);
+            })
+            .catch(err => {
+                console.error(err);
+            });
+    }, []);
+
+    ///////________XYK_________
+
 
     return (
         <>
@@ -67,6 +122,102 @@ const AdminHome = () => {
                             <p className="muted">Loading stats...</p>
                         )}
                     </div>
+
+                    {/* //________XYK________ */}
+
+                    <div className="card" style={{ marginTop: "2rem" }}>
+                        <h3>Viewer Growth Over Time</h3>
+                        <ResponsiveContainer width="100%" height={300}>
+                            <LineChart data={viewerGrowth}>
+                                <CartesianGrid strokeDasharray="3 3" />
+                                <XAxis dataKey="month" />
+                                <YAxis />
+
+                                <Tooltip
+                                    contentStyle={{ 
+                                        backgroundColor: '#1a1a2e', 
+                                        border: '1px solid #666',
+                                        borderRadius: '4px'
+                                    }}
+                                    labelStyle={{ 
+                                        fontWeight: "bold", 
+                                        color: '#ffffff',
+                                        marginBottom: '5px'
+                                    }}
+                                    itemStyle={{ color: '#ffffff' }}
+                                />
+                                <Legend />
+                                <Line 
+                                    type="monotone" 
+                                    dataKey="new_viewers" 
+                                    stroke="#ffffff" 
+                                    strokeWidth={2}
+                                    name="New Viewers"
+                                />
+                            </LineChart>
+                        </ResponsiveContainer>
+                    </div>
+
+
+                    <div className="card" style={{ marginTop: "2rem" }}>
+                        <div className="page-header" style={{ marginBottom: '1rem' }}>
+                            <h3 className="page-title">Revenue Growth Over Time</h3>
+                            <span className="pill">Total Revenue: {totalRevenue ? Number(totalRevenue).toLocaleString() : 0}</span>
+                        </div>
+                        <ResponsiveContainer width="100%" height={300}>
+                            <ComposedChart data={revenueGrowth}>
+                                <XAxis dataKey="month" />
+                                <YAxis
+                                    yAxisId="left"
+                                    stroke="#ffffffff"
+                                    tickFormatter={(v) => v == null ? '' : `${(v * 100).toFixed(2)}%`}
+                                >
+                                    <CartesianGrid strokeDasharray="3 3" />
+                                </YAxis>
+                                <YAxis yAxisId="right" orientation="right" stroke="#ffffff" />
+                                <Tooltip
+                                    contentStyle={{ 
+                                        backgroundColor: '#1a1a2e', 
+                                        border: '1px solid #666',
+                                        borderRadius: '4px'
+                                    }}
+                                    labelStyle={{ 
+                                        fontWeight: "bold", 
+                                        color: '#ffffff',
+                                        marginBottom: '5px'
+                                    }}
+                                    itemStyle={{ color: '#ffffff' }}
+                                    formatter={(value, name) => {
+                                        if (name === 'Growth Rate') {
+                                            return [`${(value * 100).toFixed(2)}%`, name];
+                                        }
+                                        return [value, name];
+                                    }}
+                                />
+                                <Legend />
+                                
+                                <Bar 
+                                    yAxisId="right"
+                                    dataKey="revenue_new" 
+                                    fill="#396182ff"
+                                    name="New Revenue"
+                                    barSize={30}
+                                />
+                                
+                                <Line 
+                                    yAxisId="left"
+                                    type="monotone"
+                                    dataKey="growth_rate"
+                                    stroke="#ffffffff"
+                                    strokeWidth={2}
+                                    name="Growth Rate"
+                                    dot={false}
+                                />
+                            </ComposedChart>
+                        </ResponsiveContainer>
+                    </div>
+                    {/* ///////________XYK________ */}
+
                 </div>
             </div>
         </>
